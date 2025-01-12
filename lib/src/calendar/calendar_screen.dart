@@ -58,20 +58,20 @@ class CalendarScreenState extends State<CalendarScreen> {
   }
 
   List<String?> makeMonthsDays() {
-    List<String?> aaa = [];
+    List<String?> monthDays = [];
     final weekdayOfFirstDay =
         firstDayOfMonth.weekday; // 日0,月1,火2,水3,木4,金5,土6が入る
 
     // 最初の日付が始まる曜日までnullで埋める
     for (int i = 0; i < weekdayOfFirstDay; i++) {
-      aaa.add(null);
+      monthDays.add(null);
     }
 
     for (int i = 0; i < lastDayOfMonth.day; i++) {
-      aaa.add(i.toString());
+      monthDays.add(i.toString());
     }
-    print(aaa);
-    return aaa;
+    print(monthDays);
+    return monthDays;
   }
 }
 
