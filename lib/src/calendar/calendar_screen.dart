@@ -48,6 +48,7 @@ class CalendarScreenState extends State<CalendarScreen> {
           Row(
             children: [
               DayCell(now.day.toString()),
+              const DayCell(null),
             ],
           ),
           Text(firstDayOfMonth.weekday.toString())
@@ -94,25 +95,33 @@ class DayOfWeekCell extends StatelessWidget {
 
 // 日付単体のセル
 class DayCell extends StatelessWidget {
-  final String day;
+  final String? day;
   final TextStyle? style;
   const DayCell(this.day, {super.key, this.style});
 
   @override
   Widget build(BuildContext context) {
+    const double height = 30;
+    if (day != null) {
+      return Expanded(
+        child: Column(
+          children: [
+            Text(
+              day!,
+              style: style,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(
+              height: height,
+            )
+          ],
+        ),
+      );
+    }
     return Expanded(
-      child: Column(
-        children: [
-          Text(
-            day,
-            style: style,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(
-            height: 30,
-          )
-        ],
-      ),
-    );
+        child: Container(
+      height: height,
+      color: Colors.black38,
+    ));
   }
 }
