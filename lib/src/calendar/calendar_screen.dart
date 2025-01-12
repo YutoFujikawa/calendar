@@ -23,7 +23,7 @@ class CalendarScreenState extends State<CalendarScreen> {
     month = now.month;
     year = now.year;
     firstDayOfMonth = DateTime(year, month, 1);
-    lastDayOfMonth = DateTime(year, month + 1, 0); // 次の月の0日目(先月の最終日)取得
+    lastDayOfMonth = DateTime(year, month + 1, 0); // 次の月の0日目(今月の最終日)取得
   }
 
   @override
@@ -51,10 +51,27 @@ class CalendarScreenState extends State<CalendarScreen> {
               DayCell(now.day.toString()),
             ],
           ),
-          Text(now.timeZoneName),
+          Text(firstDayOfMonth.weekday.toString())
         ],
       ),
     );
+  }
+
+  List<String?> makeMonthsDays() {
+    List<String?> aaa = [];
+    final weekdayOfFirstDay =
+        firstDayOfMonth.weekday; // 日0,月1,火2,水3,木4,金5,土6が入る
+
+    // 最初の日付が始まる曜日までnullで埋める
+    for (int i = 0; i < weekdayOfFirstDay; i++) {
+      aaa.add(null);
+    }
+
+    for (int i = 0; i < lastDayOfMonth.day; i++) {
+      aaa.add(i.toString());
+    }
+    print(aaa);
+    return aaa;
   }
 }
 
