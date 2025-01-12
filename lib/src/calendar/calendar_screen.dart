@@ -45,39 +45,50 @@ class CalendarScreenState extends State<CalendarScreen> {
               DayOfWeekCell(dayName: '土', style: TextStyle(color: Colors.blue)),
             ],
           ),
-          Row(
-            children: [
-              DayCell(now.day.toString()),
-              const DayCell(null),
-            ],
+          Flexible(
+            // FIXME(): grid間に微妙な白線が入る。
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 7,
+              ),
+              itemCount:
+                  42, // FIXME(): 1日が金土とかに始まると最大42マス必要だけど、大体35マスで収まることが多く、下の行があまりがち
+              itemBuilder: (context, index) {
+                List<String?> daysOfMonth = makeDaysOfMonth();
+
+                if (index < daysOfMonth.length && daysOfMonth[index] != null) {
+                  return DayCell(daysOfMonth[index]);
+                } else {
+                  return const DayCell(null);
+                }
+              },
+            ),
           ),
-          Text(firstDayOfMonth.weekday.toString())
         ],
       ),
     );
   }
 
-  List<String?> makeMonthsDays() {
-    List<String?> monthDays = [];
+  List<String?> makeDaysOfMonth() {
+    List<String?> monthDaysStrings = [];
     final weekdayOfFirstDay =
         firstDayOfMonth.weekday; // 日0,月1,火2,水3,木4,金5,土6が入る
 
     // 最初の日付が始まる曜日までnullで埋める
     for (int i = 0; i < weekdayOfFirstDay; i++) {
-      monthDays.add(null);
+      monthDaysStrings.add(null);
     }
 
     // 当月の日付を入力していく
-    for (int i = 0; i < lastDayOfMonth.day; i++) {
-      monthDays.add(i.toString());
+    for (int i = 1; i <= lastDayOfMonth.day; i++) {
+      monthDaysStrings.add(i.toString());
     }
 
     // 月末の曜日から土曜日まで空いている分をnullで埋める
     for (int i = lastDayOfMonth.weekday + 1; i <= 6; i++) {
-      monthDays.add(null);
+      monthDaysStrings.add(null);
     }
-    print(monthDays);
-    return monthDays;
+    return monthDaysStrings;
   }
 }
 
@@ -108,26 +119,26 @@ class DayCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double height = 30;
-    if (day != null) {
-      return Expanded(
-        child: Column(
-          children: [
-            Text(
-              day!,
-              style: style,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: height,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(color: Colors.grey), // 枠線を追加
+      ),
+      child: day != null
+          ? Column(
+              children: [
+                Text(
+                  day!,
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: height)
+              ],
             )
-          ],
-        ),
-      );
-    }
-    return Expanded(
-        child: Container(
-      height: height,
-      color: Colors.black38,
-    ));
+          : Container(
+              height: height,
+              color: Colors.grey,
+            ),
+    );
   }
 }
