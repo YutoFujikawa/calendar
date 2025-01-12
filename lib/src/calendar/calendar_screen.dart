@@ -1,62 +1,56 @@
 import 'package:flutter/material.dart';
 
-class CalendarScreen extends StatelessWidget {
+class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('2024年12月'),
-      ),
-      body: const CalendarView(),
-    );
-  }
+  State<StatefulWidget> createState() => CalendarScreenState();
 }
 
-class CalendarView extends StatelessWidget {
-  const CalendarView({super.key});
+class CalendarScreenState extends State<CalendarScreen> {
+  late DateTime now;
+  late int month;
+  late int year;
+  late DateTime firstDayOfMonth;
+  late DateTime lastDayOfMonth;
+  @override
+  void initState() {
+    super.initState();
+    now = DateTime.now();
+    month = now.month;
+    year = now.year;
+    firstDayOfMonth = DateTime(year, month, 1);
+    lastDayOfMonth = DateTime(year, month + 1, 0); // 次の月の0日目(先月の最終日)取得
+  }
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    return Column(
-      children: [
-        const Row(
-          children: [
-            DayOfWeekCell(dayName: '日', style: TextStyle(color: Colors.red)),
-            DayOfWeekCell(dayName: '月'),
-            DayOfWeekCell(dayName: '火'),
-            DayOfWeekCell(dayName: '水'),
-            DayOfWeekCell(dayName: '木'),
-            DayOfWeekCell(dayName: '金'),
-            DayOfWeekCell(dayName: '土', style: TextStyle(color: Colors.blue)),
-          ],
-        ),
-        const Row(
-          children: [
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-          ],
-        ),
-        const Row(
-          children: [
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-            DayCell("a"),
-          ],
-        ),
-        Text(now.timeZoneName),
-      ],
+    print(now.day);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("$year年$month月"),
+      ),
+      body: Column(
+        children: [
+          const Row(
+            children: [
+              DayOfWeekCell(dayName: '日', style: TextStyle(color: Colors.red)),
+              DayOfWeekCell(dayName: '月'),
+              DayOfWeekCell(dayName: '火'),
+              DayOfWeekCell(dayName: '水'),
+              DayOfWeekCell(dayName: '木'),
+              DayOfWeekCell(dayName: '金'),
+              DayOfWeekCell(dayName: '土', style: TextStyle(color: Colors.blue)),
+            ],
+          ),
+          Row(
+            children: [
+              DayCell(now.day.toString()),
+            ],
+          ),
+          Text(now.timeZoneName),
+        ],
+      ),
     );
   }
 }
@@ -79,6 +73,7 @@ class DayOfWeekCell extends StatelessWidget {
   }
 }
 
+// 日付単体のセル
 class DayCell extends StatelessWidget {
   final String day;
   final TextStyle? style;
@@ -90,7 +85,7 @@ class DayCell extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "day",
+            day,
             style: style,
             textAlign: TextAlign.center,
           ),
