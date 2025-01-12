@@ -13,9 +13,12 @@ class CalendarScreenState extends State<CalendarScreen> {
   late int year;
   late DateTime firstDayOfMonth;
   late DateTime lastDayOfMonth;
+
   @override
   void initState() {
     super.initState();
+
+    // 初期状態は今日の日付
     now = DateTime.now();
     month = now.month;
     year = now.year;
