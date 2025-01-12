@@ -28,7 +28,6 @@ class CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(now.day);
     return Scaffold(
       appBar: AppBar(
         title: Text("$year年$month月"),
