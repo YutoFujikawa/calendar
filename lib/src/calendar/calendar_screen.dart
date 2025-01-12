@@ -45,13 +45,25 @@ class CalendarScreenState extends State<CalendarScreen> {
               DayOfWeekCell(dayName: '土', style: TextStyle(color: Colors.blue)),
             ],
           ),
-          Row(
-            children: [
-              DayCell(now.day.toString()),
-              const DayCell(null),
-            ],
+          Flexible(
+            // FIXME(): grid間に微妙な白線が入る。
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 7,
+              ),
+              itemCount:
+                  42, // FIXME(): 1日が金土とかに始まると最大42マス必要だけど、大体35マスで収まることが多く、下の行があまりがち
+              itemBuilder: (context, index) {
+                List<String?> daysOfMonth = makeDaysOfMonth();
+
+                if (index < daysOfMonth.length && daysOfMonth[index] != null) {
+                  return DayCell(daysOfMonth[index]);
+                } else {
+                  return const DayCell(null);
+                }
+              },
+            ),
           ),
-          Text(firstDayOfMonth.weekday.toString())
         ],
       ),
     );
@@ -107,27 +119,26 @@ class DayCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double height = 30;
-    if (day != null) {
-      return Expanded(
-        child: Column(
-          children: [
-            Text(
-              day!,
-              style: style,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: height,
-            )
-          ],
-        ),
-      );
-    }
-    return Expanded(
-      child: Container(
-        height: height,
-        color: Colors.black38,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(color: Colors.grey), // 枠線を追加
       ),
+      child: day != null
+          ? Column(
+              children: [
+                Text(
+                  day!,
+                  style: style,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: height)
+              ],
+            )
+          : Container(
+              height: height,
+              color: Colors.grey,
+            ),
     );
   }
 }
