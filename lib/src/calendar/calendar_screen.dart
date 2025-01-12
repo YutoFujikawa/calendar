@@ -57,27 +57,26 @@ class CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  List<String?> makeMonthsDays() {
-    List<String?> monthDays = [];
+  List<String?> makeDaysOfMonth() {
+    List<String?> monthDaysStrings = [];
     final weekdayOfFirstDay =
         firstDayOfMonth.weekday; // 日0,月1,火2,水3,木4,金5,土6が入る
 
     // 最初の日付が始まる曜日までnullで埋める
     for (int i = 0; i < weekdayOfFirstDay; i++) {
-      monthDays.add(null);
+      monthDaysStrings.add(null);
     }
 
     // 当月の日付を入力していく
-    for (int i = 0; i < lastDayOfMonth.day; i++) {
-      monthDays.add(i.toString());
+    for (int i = 1; i <= lastDayOfMonth.day; i++) {
+      monthDaysStrings.add(i.toString());
     }
 
     // 月末の曜日から土曜日まで空いている分をnullで埋める
     for (int i = lastDayOfMonth.weekday + 1; i <= 6; i++) {
-      monthDays.add(null);
+      monthDaysStrings.add(null);
     }
-    print(monthDays);
-    return monthDays;
+    return monthDaysStrings;
   }
 }
 
@@ -125,9 +124,10 @@ class DayCell extends StatelessWidget {
       );
     }
     return Expanded(
-        child: Container(
-      height: height,
-      color: Colors.black38,
-    ));
+      child: Container(
+        height: height,
+        color: Colors.black38,
+      ),
+    );
   }
 }
