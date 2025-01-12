@@ -67,8 +67,14 @@ class CalendarScreenState extends State<CalendarScreen> {
       monthDays.add(null);
     }
 
+    // 当月の日付を入力していく
     for (int i = 0; i < lastDayOfMonth.day; i++) {
       monthDays.add(i.toString());
+    }
+
+    // 月末の曜日から土曜日まで空いている分をnullで埋める
+    for (int i = lastDayOfMonth.weekday + 1; i <= 6; i++) {
+      monthDays.add(null);
     }
     print(monthDays);
     return monthDays;
