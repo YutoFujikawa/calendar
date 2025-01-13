@@ -22,8 +22,7 @@ class CalendarScreenState extends State<CalendarScreen> {
     now = DateTime.now();
     month = now.month;
     year = now.year;
-    firstDayOfMonth = DateTime(year, month, 1);
-    lastDayOfMonth = DateTime(year, month + 1, 0); // 次の月の0日目(今月の最終日)取得
+    changeCalendarDay();
   }
 
   @override
@@ -31,6 +30,16 @@ class CalendarScreenState extends State<CalendarScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("$year年$month月"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: previousMonth,
+          ),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward),
+            onPressed: nextMonth,
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -89,6 +98,35 @@ class CalendarScreenState extends State<CalendarScreen> {
       monthDaysStrings.add(null);
     }
     return monthDaysStrings;
+  }
+
+  void previousMonth() {
+    setState(() {
+      if (month == 1) {
+        year -= 1;
+        month = 12;
+      } else {
+        month -= 1;
+      }
+      changeCalendarDay();
+    });
+  }
+
+  void nextMonth() {
+    setState(() {
+      if (month == 12) {
+        year += 1;
+        month = 1;
+      } else {
+        month += 1;
+      }
+      changeCalendarDay();
+    });
+  }
+
+  void changeCalendarDay() {
+    firstDayOfMonth = DateTime(year, month, 1);
+    lastDayOfMonth = DateTime(year, month + 1, 0); // 次の月の0日目(今月の最終日)取得
   }
 }
 
