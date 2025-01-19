@@ -1,3 +1,4 @@
+import 'package:calendar/src/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -46,13 +47,13 @@ class CalendarScreenState extends State<CalendarScreen> {
         children: [
           const Row(
             children: [
-              DayOfWeekCell(dayName: '日', style: TextStyle(color: Colors.red)),
+              DayOfWeekCell(dayName: '日', style: TextStyles.sundayStyle),
               DayOfWeekCell(dayName: '月'),
               DayOfWeekCell(dayName: '火'),
               DayOfWeekCell(dayName: '水'),
               DayOfWeekCell(dayName: '木'),
               DayOfWeekCell(dayName: '金'),
-              DayOfWeekCell(dayName: '土', style: TextStyle(color: Colors.blue)),
+              DayOfWeekCell(dayName: '土', style: TextStyles.saturdayStyle),
             ],
           ),
           Flexible(
