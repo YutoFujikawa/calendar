@@ -46,7 +46,6 @@ analysis_benchmark.json
 
 # packages file containing multi-root paths
 .packages.generated
-.fvm
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -128,3 +127,6 @@ app.*.symbols
 **/android/app/google-services.json
 **/test_screenshot
 **/integration_test_result
+
+# FVM Version Cache
+.fvm/
